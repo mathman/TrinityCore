@@ -43,6 +43,7 @@
 #include "OutdoorPvP/OutdoorPvPMgr.h"
 #include "BattlegroundMgr.h"
 #include "TCSoap.h"
+#include "WebSocket.h"
 #include "CliRunnable.h"
 #include "SystemConfig.h"
 #include "WorldSocket.h"
@@ -216,6 +217,13 @@ extern int main(int argc, char** argv)
         soapThread = new std::thread(TCSoapThread, sConfigMgr->GetStringDefault("SOAP.IP", "127.0.0.1"), uint16(sConfigMgr->GetIntDefault("SOAP.Port", 7878)));
     }
 
+    // Start web serving thread if enabled
+    std::thread* webThread = nullptr;
+    if (sConfigMgr->GetBoolDefault("WEB.Enabled", false))
+    {
+        webThread = new std::thread(WebSocketThread, sConfigMgr->GetStringDefault("WEB.IP", "127.0.0.1"), sConfigMgr->GetStringDefault("WEB.Port", "20000"));
+    }
+
     // Launch the worldserver listener socket
     uint16 worldPort = uint16(sWorld->getIntConfig(CONFIG_PORT_WORLD));
     std::string worldListener = sConfigMgr->GetStringDefault("BindIP", "0.0.0.0");
@@ -267,6 +275,12 @@ extern int main(int argc, char** argv)
     {
         soapThread->join();
         delete soapThread;
+    }
+
+    if (webThread != nullptr)
+    {
+        webThread->join();
+        delete webThread;
     }
 
     delete raAcceptor;

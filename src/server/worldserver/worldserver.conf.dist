@@ -2397,6 +2397,28 @@ SOAP.IP = "127.0.0.1"
 SOAP.Port = 7878
 
 #
+#    WEB.Enable
+#        Description: Enable web service.
+#        Default:     0 - (Disabled)
+#                     1 - (Enabled)
+
+WEB.Enabled = 0
+
+#
+#    WEB.IP
+#        Description: Bind web service to IP/hostname.
+#        Default:     "127.0.0.1" - (Bind to localhost)
+
+WEB.IP = "127.0.0.1"
+
+#
+#    WEB.Port
+#        Description: TCP port to reach the web service.
+#        Default:     20000
+
+WEB.Port = 20000
+
+#
 ###################################################################################################
 
 ###################################################################################################
