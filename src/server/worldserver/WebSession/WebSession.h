@@ -10,7 +10,7 @@ void WebSessionThread(const std::string& host, const std::string& port);
 class WebSession
 {
     public:
-        WebSession(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator) : io_service_(io_service), socket_(io_service), closed(false)
+        WebSession(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator) : socket_(io_service), closed(false)
         {
             boost::asio::connect(socket_, endpoint_iterator);
         }
@@ -28,29 +28,32 @@ class WebSession
                 TC_LOG_INFO("webserver", "send packet");
         }
 
+        void Handle_NULL() { }
+        void Handle_ClientSide() { }
+        void HandleCheckCoreName();
+
+        bool isActive() { return m_active; }
+
+    private:
         void do_close()
         {
             socket_.close();
             closed = true;
         }
 
-        void Handle_NULL() { }
-        void Handle_ClientSide() { }
-
-        void HandleCheckCoreName();
-
-    protected:
         void handler_buffer(WebByteBuffer buffer);
+
         void ReadHandler();
 
-    private:
+        void setActive(bool active) { m_active = active; }
+
         WebByteBuffer _writeBuffer;
         WebByteBuffer _readBuffer;
 
-        boost::asio::io_service& io_service_;
         tcp::socket socket_;
 
         bool closed;
+        bool m_active;
 };
 
 #endif
