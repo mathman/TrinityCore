@@ -43,7 +43,7 @@
 #include "OutdoorPvP/OutdoorPvPMgr.h"
 #include "BattlegroundMgr.h"
 #include "TCSoap.h"
-#include "WebSocket.h"
+#include "WebSession.h"
 #include "CliRunnable.h"
 #include "SystemConfig.h"
 #include "WorldSocket.h"
@@ -221,7 +221,7 @@ extern int main(int argc, char** argv)
     std::thread* webThread = nullptr;
     if (sConfigMgr->GetBoolDefault("WEB.Enabled", false))
     {
-        webThread = new std::thread(WebSocketThread, sConfigMgr->GetStringDefault("WEB.IP", "127.0.0.1"), sConfigMgr->GetStringDefault("WEB.Port", "20000"));
+        webThread = new std::thread(WebSessionThread, sConfigMgr->GetStringDefault("WEB.IP", "127.0.0.1"), sConfigMgr->GetStringDefault("WEB.Port", "20000"));
     }
 
     // Launch the worldserver listener socket

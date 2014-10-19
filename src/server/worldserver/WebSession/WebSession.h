@@ -5,17 +5,12 @@
 #include <boost/asio.hpp>
 #include "WebByteBuffer.h"
 
-void WebSocketThread(const std::string& host, const std::string& port);
+void WebSessionThread(const std::string& host, const std::string& port);
 
-enum webOpcode
-{
-    WEB_DEFAULT = 0x00
-};
-
-class WebSocket
+class WebSession
 {
     public:
-        WebSocket(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator) : io_service_(io_service), socket_(io_service), closed(false)
+        WebSession(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator) : io_service_(io_service), socket_(io_service), closed(false)
         {
             boost::asio::connect(socket_, endpoint_iterator);
         }
@@ -29,6 +24,8 @@ class WebSocket
 
             if (error)
                 do_close();
+            else
+                TC_LOG_INFO("webserver", "send packet");
         }
 
         void do_close()
@@ -36,6 +33,11 @@ class WebSocket
             socket_.close();
             closed = true;
         }
+
+        void Handle_NULL() { }
+        void Handle_ClientSide() { }
+
+        void HandleCheckCoreName();
 
     protected:
         void handler_buffer(WebByteBuffer buffer);

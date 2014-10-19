@@ -11,7 +11,7 @@
 file(GLOB_RECURSE sources_CommandLine CommandLine/*.cpp CommandLine/*.h)
 file(GLOB_RECURSE sources_RemoteAccess RemoteAccess/*.cpp RemoteAccess/*.h)
 file(GLOB_RECURSE sources_TCSoap TCSoap/*.cpp TCSoap/*.h)
-file(GLOB_RECURSE sources_WebSocket WebSocket/*.cpp WebSocket/*.h)
+file(GLOB_RECURSE sources_WebSession WebSession/*.cpp WebSession/*.h)
 file(GLOB sources_localdir *.cpp *.h)
 
 if (USE_COREPCH)
@@ -24,7 +24,7 @@ set(worldserver_SRCS
   ${sources_CommandLine}
   ${sources_RemoteAccess}
   ${sources_TCSoap}
-  ${sources_WebSocket}
+  ${sources_WebSession}
   ${sources_localdir}
 )
 
@@ -138,7 +138,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/CommandLine
   ${CMAKE_CURRENT_SOURCE_DIR}/RemoteAccess
   ${CMAKE_CURRENT_SOURCE_DIR}/TCSoap
-  ${CMAKE_CURRENT_SOURCE_DIR}/WebSocket
+  ${CMAKE_CURRENT_SOURCE_DIR}/WebSession
   ${MYSQL_INCLUDE_DIR}
   ${OPENSSL_INCLUDE_DIR}
   ${VALGRIND_INCLUDE_DIR}
